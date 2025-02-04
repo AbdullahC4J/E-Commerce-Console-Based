@@ -1,6 +1,8 @@
 package com.ab.ecommerce.users;
 
-import com.ab.ecommerce.Shop;
+import com.ab.ecommerce.Store;
 
-public class Customer extends Shop {
+public class Customer{
+    private String customerName;
+    
 }
