@@ -12,10 +12,4 @@ public interface Discountable {
      * @return The final price after discount
      */
     double getFinalPrice();
-    
-    /**
-     * Checks if the product is eligible for discount
-     * @return true if eligible for discount, false otherwise
-     */
-    boolean isDiscountEligible();
 }

@@ -4,32 +4,24 @@ package com.ab.ecommerce.products;
  * Abstract base class for all product types in the e-commerce system.
  * Implements Discountable interface for discount calculations.
  */
-public abstract class Product implements PrintProdInfo ,Discountable {
-    protected  String name;
-    protected  double price;
-    protected  String description;
-    protected  String category;
-    protected  String brand;
-    protected  String color;
+public abstract class Product implements PrintProdInfo, Discountable {
+    
+    private String name;
+    private double price;
+    private String category;
 
     /**
      * Constructs a product with all required attributes.
      * 
      * @param name        The name of the product
      * @param price       The price of the product
-     * @param description Product description
-     * @param category    Product category
-     * @param brand       Product brand name
-     * @param color       Product color
      */
-    public Product(String name, double price, String description, String category, String brand, String color) {
+    public Product(String name, double price, String category) {
         this.name = name;
         this.price = price;
-        this.description = description;
         this.category = category;
-        this.brand = brand;
-        this.color = color;
     }
+
 
     /**
      * Gets the product name.
@@ -48,14 +40,6 @@ public abstract class Product implements PrintProdInfo ,Discountable {
     }
 
     /**
-     * Gets the product description.
-     * @return The description of the product
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
      * Gets the product category.
      * @return The category of the product
      */
@@ -64,31 +48,23 @@ public abstract class Product implements PrintProdInfo ,Discountable {
     }
 
     /**
-     * Gets the product brand.
-     * @return The brand of the product
+     * Sets the product name.
+     * @param name The name to set
      */
-    public String getBrand() {
-        return brand;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * Gets the product color.
-     * @return The color of the product
+     * Sets the product price.
+     * @param price The price to set
      */
-    public String getColor() {
-        return color;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    /**
-     * Checks if the product is eligible for discount based on its category.
-     * @return true if the product category is eligible for discount, false otherwise
-     */
     @Override
-    public boolean isDiscountEligible() {
-        return switch(this.category){
-            case "Electronics","Books" -> true; 
-            case "Fashion", "SuperMarket" -> true;
-            default -> false;
-        };
-    }
+    public double getFinalPrice() { 
+            return this.price - calculateDiscount();
+    }   
 }
