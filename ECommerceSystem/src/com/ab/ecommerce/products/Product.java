@@ -13,15 +13,18 @@ public abstract class Product implements PrintProdInfo, Discountable {
     /**
      * Constructs a product with all required attributes.
      * 
-     * @param name        The name of the product
-     * @param price       The price of the product
+     * @param name     The name of the product
+     * @param price    The price of the product
+     * @param category The category of the product
+     * @throws IllegalArgumentException if any parameter is invalid
      */
     public Product(String name, double price, String category) {
+        validateName(name);
+        validatePrice(price);
         this.name = name;
         this.price = price;
         this.category = category;
     }
-
 
     /**
      * Gets the product name.
@@ -50,21 +53,56 @@ public abstract class Product implements PrintProdInfo, Discountable {
     /**
      * Sets the product name.
      * @param name The name to set
+     * @throws IllegalArgumentException if the name is invalid
      */
     public void setName(String name) {
+        validateName(name);
         this.name = name;
     }
 
     /**
      * Sets the product price.
      * @param price The price to set
+     * @throws IllegalArgumentException if the price is invalid
      */
     public void setPrice(double price) {
+        validatePrice(price);
         this.price = price;
+    }
+
+    /**
+     * Validates the product name.
+     * @param name The name to validate
+     * @throws IllegalArgumentException if the name is invalid
+     */
+    private void validateName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
+        if (name.length() < 3) {
+            throw new IllegalArgumentException("Product name must be at least 3 characters long");
+        }
+        if (name.length() > 50) {
+            throw new IllegalArgumentException("Product name cannot exceed 50 characters");
+        }
+    }
+
+    /**
+     * Validates the product price.
+     * @param price The price to validate
+     * @throws IllegalArgumentException if the price is invalid
+     */
+    private void validatePrice(double price) {
+        if (price < 1) {
+            throw new IllegalArgumentException("Invalid Price");
+        }
     }
 
     @Override
     public double getFinalPrice() { 
-            return this.price - calculateDiscount();
+        if (price <= 0) {
+            return 0;
+        }
+        return price - calculateDiscount();
     }   
 }

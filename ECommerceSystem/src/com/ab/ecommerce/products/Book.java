@@ -18,6 +18,7 @@ public class Book extends Product {
      */
     public Book(String name, double price, String author) {
         super(name, price, "Book");
+        validateAuthor(author);
         this.author = author;
     }
 
@@ -30,7 +31,25 @@ public class Book extends Product {
     }
 
     public void setAuthor(String author) {
+        validateAuthor(author);
         this.author = author;
+    }
+
+    /**
+     * Validates the author name.
+     * @param author The author name to validate
+     * @throws IllegalArgumentException if the author name is invalid
+     */
+    private void validateAuthor(String author) {
+        if (author == null || author.trim().isEmpty()) {
+            throw new IllegalArgumentException("Author name cannot be empty");
+        }
+        if (author.length() < 2) {
+            throw new IllegalArgumentException("Author name must be at least 2 characters long");
+        }   
+        if (!author.matches("^[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("Author can only contain letters, spaces, and hyphens");
+        }
     }
 
     /**

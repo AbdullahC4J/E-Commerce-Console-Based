@@ -26,6 +26,9 @@ public class Fashion extends Product {
      */
     public Fashion(String name, double price, String fashionType, String color, String size) {
         super(name, price,"Fashion");
+        validateFashionType(fashionType);
+        validateColor(color);
+        validateSize(size);
         this.fashionType = fashionType;
         this.color = color;
         this.size = size;
@@ -56,15 +59,57 @@ public class Fashion extends Product {
     }
 
     public void setFashionType(String fashionType) {
+        validateFashionType(fashionType);
         this.fashionType = fashionType;
     }
 
     public void setColor(String color) {
+        validateColor(color);
         this.color = color;
     }
 
     public void setSize(String size) {
+        validateSize(size);
         this.size = size;
+    }
+
+    /**
+     * Validates the fashion type.
+     * @throws IllegalArgumentException if the fashion type is invalid
+     */
+    private void validateFashionType(String fashionType) {
+        if (fashionType == null || fashionType.trim().isEmpty()) {
+            throw new IllegalArgumentException("Fashion type cannot be empty");
+        }
+        if (!fashionType.matches("^[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("Fashion type can only contain letters, spaces, and hyphens");
+        }
+    }
+
+    /**
+     * Validates the color.
+     * @throws IllegalArgumentException if the color is invalid
+     */
+    private void validateColor(String color) {
+        if (color == null || color.trim().isEmpty()) {
+            throw new IllegalArgumentException("Color cannot be empty");
+        }
+        if (!color.matches("^[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("Color can only contain letters, spaces, and hyphens");
+        }
+    }
+
+    /**
+     * Validates the size.
+     * @throws IllegalArgumentException if the size is invalid
+     */
+    private void validateSize(String size) {
+        if (size == null || size.trim().isEmpty()) {
+            throw new IllegalArgumentException("Size cannot be empty");
+        }
+        if (!size.matches("^[XSMLxsml0-9]+$")) {
+            throw new IllegalArgumentException("Invalid size format (e.g., XS, S, M, L, XL, XXL, or numeric)");
+        }
     }
 
     /**

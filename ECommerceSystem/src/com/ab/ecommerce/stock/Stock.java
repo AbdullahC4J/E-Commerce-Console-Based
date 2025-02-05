@@ -7,18 +7,18 @@ import java.util.ArrayList;
  * Manages the inventory of all products in the e-commerce system.
  * Handles adding, removing, and querying stock levels for different product types.
  */
-public class Stock {
+public final class Stock {
     /** List to store book products in stock */
-    protected ArrayList<Book> stockBookList = new ArrayList<>();
+    private final ArrayList<Book> stockBookList = new ArrayList<>();
     
     /** List to store electronic products in stock */
-    protected ArrayList<Electronic> stockElectronicList = new ArrayList<>();
+    private final ArrayList<Electronic> stockElectronicList = new ArrayList<>();
     
     /** List to store fashion products in stock */
-    protected ArrayList<Fashion> stockFashionList = new ArrayList<>();
+    private final ArrayList<Fashion> stockFashionList = new ArrayList<>();
     
     /** List to store supermarket products in stock */
-    protected ArrayList<SuperMarket> stockSuperMarketList = new ArrayList<>();
+    private final ArrayList<SuperMarket> stockSuperMarketList = new ArrayList<>();
 
     /**
      * Adds a book to the book stock list.

@@ -1,18 +1,14 @@
 package com.ab.ecommerce.users;
 
+import com.ab.ecommerce.products.Product;
+
 /**
  * Represents an Administrator in the e-commerce system.
  * Admins have special privileges to manage products, stock, and system settings.
  */
-public class Admin {
+public class Admin extends User{
     /** The unique identifier for the admin */
     private int adminId;
-
-    /** The name of the admin */
-    private String adminName;
-    
-    /** The password of the admin */
-    private String adminPassword;
 
     /**
      * Constructs an Admin with the specified credentials.
@@ -22,13 +18,12 @@ public class Admin {
      * @param adminPassword The password of the admin
      */
     public Admin(int adminId, String adminName, String adminPassword) {
+        super(adminName, adminPassword);
         this.adminId = adminId;
-        this.adminName = adminName;
-        this.adminPassword = adminPassword;
     }   
 
     /**
-     * Gets the admin's unique identifier.
+     * Gets the admins unique identifier.
      * @return The admin ID
      */
     public int getAdminId() {
@@ -36,35 +31,15 @@ public class Admin {
     }
 
     /**
-     * Gets the admin's name.
-     * @return The admin name
+     * Sets the admin's ID.
+     * @param adminId The new admin ID
+     * @throws IllegalArgumentException if the ID is invalid
      */
-    public String getAdminName() {
-        return adminName;
-    }  
-
-    /**
-     * Sets the admin's name.
-     * @param adminName The new admin name
-     * @throws IllegalArgumentException if the name is null or empty
-     */
-    public void setAdminName(String adminName) {
-        if (adminName == null || adminName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Admin name cannot be empty");
+    public void setAdminId(int adminId) {
+        if (adminId <= 0) {
+            throw new IllegalArgumentException("Admin ID must be a positive number");
         }
-        this.adminName = adminName;
-    }
-
-    /**
-     * Sets the admin's password.
-     * @param adminPassword The new admin password
-     * @throws IllegalArgumentException if the password is null or less than 8 characters
-     */
-    public void setAdminPassword(String adminPassword) {
-        if (adminPassword == null || adminPassword.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters");
-        }
-        this.adminPassword = adminPassword;
+        this.adminId = adminId;
     }
 
     /**
@@ -74,30 +49,16 @@ public class Admin {
     public void printAdminInfo() {
         System.out.println("Admin Information:");
         System.out.println("ID: " + adminId);
-        System.out.println("Name: " + adminName);
+        System.out.println("Name: " + getUserName());
     }
 
-    /**
-     * Verifies if the provided password matches the admin's password.
-     * @param password The password to verify
-     * @return true if the password matches, false otherwise
-     */
-    public boolean verifyPassword(String password) {
-        return this.adminPassword != null && this.adminPassword.equals(password);
-    }
+     public void addProductToStock(Product product) {
+       // TODO: Implement this method when object of Stock created
+     }
 
-    @Override
-    public String toString() {
-        return "Admin{id=" + adminId + ", name='" + adminName + "'}";
-    }
-
-    // public void addProductToStock(Product product) {
-    //   // TODO: Implement this method
-    // }
-
-    // public void removeProductFromStock(Product product) {
-    //   // TODO: Implement this method
-    // }
+     public void removeProductFromStock(Product product) {
+       // TODO: Implement this method when object of Stock created
+     }
     
     
 }

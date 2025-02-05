@@ -18,6 +18,7 @@ public class SuperMarket extends Product {
      */
     public SuperMarket(String name, double price, SuperMarketProductType smProductType) {
         super(name, price,"SuperMarket");
+        validateProductType(smProductType);
         this.smProductType = smProductType;
     }
 
@@ -34,7 +35,18 @@ public class SuperMarket extends Product {
      * @param smProductType The type of supermarket product to set
      */
     public void setSmProductType(SuperMarketProductType smProductType) {
+        validateProductType(smProductType);
         this.smProductType = smProductType;
+    }
+
+    /**
+     * Validates the product type.
+     * @throws IllegalArgumentException if the product type is null
+     */
+    private void validateProductType(SuperMarketProductType smProductType) {
+        if (smProductType == null) {
+            throw new IllegalArgumentException("Product type cannot be null");
+        }
     }
 
     /**

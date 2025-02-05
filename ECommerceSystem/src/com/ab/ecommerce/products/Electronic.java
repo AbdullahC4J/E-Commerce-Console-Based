@@ -11,9 +11,12 @@ public class Electronic extends Product {
 
     public Electronic(String name, double price, String brand, ElectronicType productType, String color) {
         super(name, price, "Electronic");
+        validateBrand(brand);
+        validateProductType(productType);
+        validateColor(color);
         this.brand = brand;
-        this.color = color;
         this.productType = productType;
+        this.color = color;
     } 
 
     /**
@@ -37,6 +40,7 @@ public class Electronic extends Product {
      * @param brand The brand name to set
      */
     public void setBrand(String brand) {
+        validateBrand(brand);
         this.brand = brand;
     }
 
@@ -45,6 +49,7 @@ public class Electronic extends Product {
      * @param color The color to set
      */
     public void setColor(String color) {
+        validateColor(color);
         this.color = color;
     }
 
@@ -61,8 +66,53 @@ public class Electronic extends Product {
      * @param productType The product type to set
      */
     public void setProductType(ElectronicType productType) {
+        validateProductType(productType);
         this.productType = productType;
     }
+
+    /**
+     * Validates the brand name.
+     * @throws IllegalArgumentException if the brand is invalid
+     */
+    private void validateBrand(String brand) {
+        if (brand == null || brand.trim().isEmpty()) {
+            throw new IllegalArgumentException("Brand cannot be empty");
+        }
+        if (brand.length() < 2) {
+            throw new IllegalArgumentException("Brand must be at least 2 characters long");
+        }
+        if (!brand.matches("^[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("Brand can only contain letters, spaces, and hyphens");
+        }
+    }
+
+    /**
+     * Validates the product type.
+     * @throws IllegalArgumentException if the product type is null
+     */
+    private void validateProductType(ElectronicType productType) {
+        if (productType == null) {
+            throw new IllegalArgumentException("Product type cannot be null");
+        }
+    }
+
+
+    /**
+     * Validates the color.
+     * @throws IllegalArgumentException if the color is invalid
+     */
+    private void validateColor(String color) {
+        if (color == null || color.trim().isEmpty()) {
+            throw new IllegalArgumentException("Color cannot be empty");
+        }
+        if (color.length() < 2) {
+            throw new IllegalArgumentException("Color must be at least 2 characters long");
+        }
+        if (!color.matches("^[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("Color can only contain letters, spaces, and hyphens");
+        }
+    }
+
 
     /**
      * Prints detailed information about the electronic device
