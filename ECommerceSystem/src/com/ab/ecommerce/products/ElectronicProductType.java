@@ -1,10 +1,10 @@
-package com.ab.ecommerce.products;
+package com.ab.ecommerce.products;  
 
 /**
  * Enum representing different types of electronic products.
  * Used to categorize electronics and determine discount rates.
  */
-public enum ElectronicType {
+public enum ElectronicProductType {
     SMARTPHONE,
     LAPTOP,
     TABLET,

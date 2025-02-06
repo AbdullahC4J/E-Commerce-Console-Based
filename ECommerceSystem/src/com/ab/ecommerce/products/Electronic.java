@@ -6,18 +6,25 @@ package com.ab.ecommerce.products;
  */
 public class Electronic extends Product {
     private String brand;
-    private ElectronicType productType;
+    private ElectronicProductType productType;
     private String color;
 
-    public Electronic(String name, double price, String brand, ElectronicType productType, String color) {
-        super(name, price, "Electronic");
-        validateBrand(brand);
-        validateProductType(productType);
-        validateColor(color);
-        this.brand = brand;
-        this.productType = productType;
-        this.color = color;
-    } 
+    /**
+     * Constructs a new Electronic product.
+     * 
+     * @param name        The name of the product
+     * @param price       The price of the product
+     * @param brand       The brand of the electronic device
+     * @param productType The type of electronic device
+     * @param color       The color of the device
+     * @throws IllegalArgumentException if any parameter is invalid
+     */
+    public Electronic(String name, double price, String brand, ElectronicProductType productType, String color) {
+        super(name, price, "Electronics");
+        setBrand(brand);
+        setProductType(productType);
+        setColor(color);
+    }
 
     /**
      * Gets the brand of the electronic device.
@@ -57,7 +64,7 @@ public class Electronic extends Product {
      * Gets the type of electronic device.
      * @return The product type (SMARTPHONE, LAPTOP, etc.)
      */
-    public ElectronicType getProductType() {
+    public ElectronicProductType getProductType() {
         return productType;
     }
 
@@ -65,7 +72,7 @@ public class Electronic extends Product {
      * Sets the type of electronic device.
      * @param productType The product type to set
      */
-    public void setProductType(ElectronicType productType) {
+    public void setProductType(ElectronicProductType productType) {
         validateProductType(productType);
         this.productType = productType;
     }
@@ -78,11 +85,8 @@ public class Electronic extends Product {
         if (brand == null || brand.trim().isEmpty()) {
             throw new IllegalArgumentException("Brand cannot be empty");
         }
-        if (brand.length() < 2) {
-            throw new IllegalArgumentException("Brand must be at least 2 characters long");
-        }
-        if (!brand.matches("^[a-zA-Z]+$")) {
-            throw new IllegalArgumentException("Brand can only contain letters, spaces, and hyphens");
+        if (!brand.matches("^[a-zA-Z0-9\\s-]+$")) {
+            throw new IllegalArgumentException("Brand can only contain letters, numbers, spaces, and hyphens");
         }
     }
 
@@ -90,12 +94,11 @@ public class Electronic extends Product {
      * Validates the product type.
      * @throws IllegalArgumentException if the product type is null
      */
-    private void validateProductType(ElectronicType productType) {
+    private void validateProductType(ElectronicProductType  productType) {
         if (productType == null) {
             throw new IllegalArgumentException("Product type cannot be null");
         }
     }
-
 
     /**
      * Validates the color.
@@ -105,14 +108,10 @@ public class Electronic extends Product {
         if (color == null || color.trim().isEmpty()) {
             throw new IllegalArgumentException("Color cannot be empty");
         }
-        if (color.length() < 2) {
-            throw new IllegalArgumentException("Color must be at least 2 characters long");
-        }
-        if (!color.matches("^[a-zA-Z]+$")) {
+        if (!color.matches("^[a-zA-Z\\s-]+$")) {
             throw new IllegalArgumentException("Color can only contain letters, spaces, and hyphens");
         }
     }
-
 
     /**
      * Prints detailed information about the electronic device

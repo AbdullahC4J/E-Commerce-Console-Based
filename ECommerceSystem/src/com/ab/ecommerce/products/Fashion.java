@@ -26,12 +26,9 @@ public class Fashion extends Product {
      */
     public Fashion(String name, double price, String fashionType, String color, String size) {
         super(name, price,"Fashion");
-        validateFashionType(fashionType);
-        validateColor(color);
-        validateSize(size);
-        this.fashionType = fashionType;
-        this.color = color;
-        this.size = size;
+        setFashionType(fashionType);
+        setColor(color);
+        setSize(size);
     }
 
     /**

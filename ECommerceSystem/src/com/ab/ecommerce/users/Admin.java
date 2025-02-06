@@ -9,6 +9,7 @@ import com.ab.ecommerce.products.Product;
 public class Admin extends User{
     /** The unique identifier for the admin */
     private int adminId;
+    private Stock stock;
 
     /**
      * Constructs an Admin with the specified credentials.

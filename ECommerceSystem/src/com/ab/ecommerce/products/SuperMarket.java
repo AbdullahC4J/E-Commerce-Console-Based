@@ -18,8 +18,7 @@ public class SuperMarket extends Product {
      */
     public SuperMarket(String name, double price, SuperMarketProductType smProductType) {
         super(name, price,"SuperMarket");
-        validateProductType(smProductType);
-        this.smProductType = smProductType;
+        setSmProductType(smProductType);
     }
 
     /**

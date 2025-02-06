@@ -93,16 +93,24 @@ public abstract class Product implements PrintProdInfo, Discountable {
      * @throws IllegalArgumentException if the price is invalid
      */
     private void validatePrice(double price) {
-        if (price < 1) {
+        if (price < 1.0) {
             throw new IllegalArgumentException("Invalid Price");
         }
     }
 
+    /**
+     * Gets the final price of the product after applying any discounts.
+     * @return The final price of the product
+     */
     @Override
     public double getFinalPrice() { 
-        if (price <= 0) {
-            return 0;
-        }
-        return price - calculateDiscount();
+        if (this.price <= 0.0)
+            throw new IllegalArgumentException("Invalid Price");
+
+        return this.price - calculateDiscount();
     }   
+
+
+
+
 }
