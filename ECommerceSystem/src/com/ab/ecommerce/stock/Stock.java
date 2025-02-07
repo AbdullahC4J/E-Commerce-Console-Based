@@ -21,68 +21,41 @@ public final class Stock {
     private final ArrayList<SuperMarket> stockSuperMarketList = new ArrayList<>();
 
     /**
-     * Adds a book to the book stock list.
-     * @param book The book to add to stock
+     * Constructs a new Stock.
      */
-    public void addBook(Book book) {
-        stockBookList.add(book);
+    public Stock() {}
+
+    /**
+     * Adds a product to the stock list based on its type.
+     * @param product The product to add to stock
+     * @throws IllegalArgumentException if the product type is invalid
+     */
+    public void addProduct(Product product) {
+        switch (product) {
+            case Book book -> stockBookList.add(book);
+            case Electronic electronic -> stockElectronicList.add(electronic);
+            case Fashion fashion -> stockFashionList.add(fashion);
+            case SuperMarket superMarket -> stockSuperMarketList.add(superMarket);
+
+            default -> throw new IllegalArgumentException("Invalid Product Type");
+        }
     }
 
     /**
-     * Adds an electronic item to the electronics stock list.
-     * @param electronic The electronic item to add to stock
+     * Removes a product from the stock list based on its type.
+     * @param product The product to remove from stock
+     * @throws IllegalArgumentException if the product type is invalid
      */
-    public void addElectronic(Electronic electronic) {
-        stockElectronicList.add(electronic);
-    }   
+    public void removeProduct(Product product) {
+        switch (product) {
+            case Book book -> stockBookList.remove(book);
+            case Electronic electronic -> stockElectronicList.remove(electronic);
+            case Fashion fashion -> stockFashionList.remove(fashion);
+            case SuperMarket superMarket -> stockSuperMarketList.remove(superMarket);
 
-    /**
-     * Adds a fashion item to the fashion stock list.
-     * @param fashion The fashion item to add to stock
-     */
-    public void addFashion(Fashion fashion) {
-        stockFashionList.add(fashion);
-    }   
-
-    /**
-     * Adds a supermarket item to the supermarket stock list.
-     * @param superMarket The supermarket item to add to stock
-     */
-    public void addSuperMarket(SuperMarket superMarket) {
-        stockSuperMarketList.add(superMarket);
-    }      
-
-    /**
-     * Removes a book from the book stock list.
-     * @param book The book to remove from stock
-     */
-    public void removeBook(Book book) {
-        stockBookList.remove(book);
-    }       
-
-    /**
-     * Removes an electronic item from the electronics stock list.
-     * @param electronic The electronic item to remove from stock
-     */
-    public void removeElectronic(Electronic electronic) {
-        stockElectronicList.remove(electronic);
-    }   
-
-    /**
-     * Removes a fashion item from the fashion stock list.
-     * @param fashion The fashion item to remove from stock
-     */
-    public void removeFashion(Fashion fashion) {
-        stockFashionList.remove(fashion);
-    }   
-
-    /**
-     * Removes a supermarket item from the supermarket stock list.
-     * @param superMarket The supermarket item to remove from stock
-     */
-    public void removeSuperMarket(SuperMarket superMarket) {
-        stockSuperMarketList.remove(superMarket);
-    } 
+            default -> throw new IllegalArgumentException("Invalid Product Type");
+        }
+    }
 
     /**
      * Prints the current stock levels for all product types.

@@ -19,9 +19,9 @@ public class Cart {
 
     /** Total price after applying all product discounts */
     private double totalAfterDiscount;
-    
+
     /** Maximum number of items allowed in a single cart */
-    private static final int MAX_ITEMS = 30;
+    private final int MAX_ITEMS = 30;
 
     /**
      * Constructs an empty cart with initialized totals.

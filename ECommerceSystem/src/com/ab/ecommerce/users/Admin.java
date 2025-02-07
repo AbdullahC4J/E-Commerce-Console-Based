@@ -1,6 +1,10 @@
 package com.ab.ecommerce.users;
 
 import com.ab.ecommerce.products.Product;
+import com.ab.ecommerce.stock.Stock;
+
+import java.util.Scanner;
+
 
 /**
  * Represents an Administrator in the e-commerce system.
@@ -9,7 +13,10 @@ import com.ab.ecommerce.products.Product;
 public class Admin extends User{
     /** The unique identifier for the admin */
     private int adminId;
+    /** The stock of the store */       
     private Stock stock;
+    /** The password checked of the admin */
+    private boolean isAdminPasswordChecked = false;
 
     /**
      * Constructs an Admin with the specified credentials.
@@ -18,9 +25,10 @@ public class Admin extends User{
      * @param adminName     The name of the admin
      * @param adminPassword The password of the admin
      */
-    public Admin(int adminId, String adminName, String adminPassword) {
+    public Admin(int adminId, String adminName, String adminPassword, Stock stock) {
         super(adminName, adminPassword);
         this.adminId = adminId;
+        this.stock = stock;
     }   
 
     /**
@@ -53,13 +61,47 @@ public class Admin extends User{
         System.out.println("Name: " + getUserName());
     }
 
-     public void addProductToStock(Product product) {
-       // TODO: Implement this method when object of Stock created
+    /**
+     * Adds a product to the stock.
+     * @param product The product to add
+     */
+    public void addProductToStock(Product product) {
+         if(!isAdminPasswordChecked){
+            System.out.println("Enter Admin password: ");
+            Scanner scanner = new Scanner(System.in);
+            String password = scanner.nextLine();
+            scanner.close();
+            
+            if(verifyPassword(password)){
+                isAdminPasswordChecked = true;
+            } else {
+                System.out.println("Incorrect password");
+                return;
+            }
+        }
+
+        stock.addProduct(product);
      }
 
-     public void removeProductFromStock(Product product) {
-       // TODO: Implement this method when object of Stock created
+    /**
+     * Removes a product from the stock.
+     * @param product The product to remove
+     */
+    public void removeProductFromStock(Product product) {
+        if(!isAdminPasswordChecked){
+            System.out.println("Enter Admin password: ");
+            Scanner scanner = new Scanner(System.in);
+            String password = scanner.nextLine();
+            scanner.close();
+            
+            if(verifyPassword(password)){
+                isAdminPasswordChecked = true;
+            } else {
+                System.out.println("Incorrect password");
+                return;
+            }
+        }   
+        stock.removeProduct(product);
      }
-    
     
 }

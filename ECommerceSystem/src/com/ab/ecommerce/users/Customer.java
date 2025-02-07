@@ -116,7 +116,7 @@ public class Customer extends User{
 
         if (!verifyPassword(password)) {
             System.out.println("Incorrect password");
-            return;
+            this.checkout();
         }
 
         printCustomerInfo();

@@ -10,9 +10,6 @@ import com.ab.ecommerce.cart.Cart;
 public class Bill {
     /** The cart associated with this bill */
     private Cart cart;
-    
-    /** The total percentage discount applied */
-    private int discountPercentage;
 
     /**
      * Creates a new bill from a shopping cart.
@@ -22,7 +19,6 @@ public class Bill {
      */
     public Bill(Cart cart) {
         this.cart = cart;
-        this.discountPercentage = (int) (cart.getTotalAfterDiscount() / cart.getTotalPrice() * 100);
     }     
 
 
@@ -39,7 +35,7 @@ public class Bill {
         System.out.println("Number of Items: " + cart.getItemCount());
         System.out.printf("Original Total: $%.2f%n", cart.getTotalPrice());
         System.out.printf("Final Total: $%.2f%n", cart.getTotalAfterDiscount());
-        System.out.printf("Discount Applied: %d%%%n", discountPercentage);
+        System.out.printf("Discount Applied: %d%%%n", (int) (cart.getTotalAfterDiscount() / cart.getTotalPrice() * 100));
         System.out.println("-------------");
     }
 } 
