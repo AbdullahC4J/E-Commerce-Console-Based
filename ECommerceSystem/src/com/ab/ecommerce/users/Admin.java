@@ -15,8 +15,6 @@ public class Admin extends User{
     private int adminId;
     /** The stock of the store */       
     private Stock stock;
-    /** The password checked of the admin */
-    private boolean isAdminPasswordChecked = false;
 
     /**
      * Constructs an Admin with the specified credentials.
@@ -24,6 +22,7 @@ public class Admin extends User{
      * @param adminId       The unique identifier for the admin
      * @param adminName     The name of the admin
      * @param adminPassword The password of the admin
+     * @param stock         The general stock of the store
      */
     public Admin(int adminId, String adminName, String adminPassword, Stock stock) {
         super(adminName, adminPassword);
@@ -66,15 +65,15 @@ public class Admin extends User{
      * @param product The product to add
      */
     public void addProductToStock(Product product) {
-         if(!isAdminPasswordChecked){
-            System.out.println("Enter Admin password: ");
-            Scanner scanner = new Scanner(System.in);
-            String password = scanner.nextLine();
-            scanner.close();
+         if(!getIsPasswordChecked()){
+             System.out.println("Enter" + getUserName() + "s password: ");
+             Scanner scanner = new Scanner(System.in);
+             String password = scanner.nextLine();
+             scanner.close();
             
-            if(verifyPassword(password)){
-                isAdminPasswordChecked = true;
-            } else {
+             if(verifyPassword(password)){
+                setIsPasswordChecked(true);
+             } else {
                 System.out.println("Incorrect password");
                 return;
             }
@@ -88,14 +87,14 @@ public class Admin extends User{
      * @param product The product to remove
      */
     public void removeProductFromStock(Product product) {
-        if(!isAdminPasswordChecked){
+        if(!getIsPasswordChecked()){
             System.out.println("Enter Admin password: ");
             Scanner scanner = new Scanner(System.in);
             String password = scanner.nextLine();
             scanner.close();
             
             if(verifyPassword(password)){
-                isAdminPasswordChecked = true;
+                setIsPasswordChecked(true);
             } else {
                 System.out.println("Incorrect password");
                 return;

@@ -9,6 +9,7 @@ import java.util.List;
  * Manages products, calculates totals, and handles discounts.
  * Each cart has a maximum capacity and maintains both original
  * and discounted prices for all items.
+ * Note: The cart operated through the customer only.
  */
 public class Cart {
     /** List to store products added to cart */

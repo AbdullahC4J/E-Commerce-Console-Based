@@ -6,10 +6,13 @@ package com.ab.ecommerce.users;
  */
 public abstract class User {
     /** The username of the user */
-    protected String userName;
+    private String userName;
     
     /** The password of the user */
     private String password;
+
+    /** The password checked of the admin */
+    private boolean isPasswordChecked = false;
 
     /**
      * Constructs a new User with the specified credentials.
@@ -22,7 +25,6 @@ public abstract class User {
         validateUserName(userName);
         validatePassword(password);
         this.userName = userName;
-        this.password = password;
     }
 
     /**
@@ -40,7 +42,21 @@ public abstract class User {
      */
     public void setUserName(String userName) {
         validateUserName(userName);
-        this.userName = userName;
+    }
+
+    /**
+     * Gets the admin password checked status.
+     */
+    public boolean getIsPasswordChecked() {
+        return isPasswordChecked;
+    }
+
+    /**
+     * Sets the password checked status.
+     * @param PasswordChecked The new username
+     */
+    public void setIsPasswordChecked(boolean PasswordChecked) {
+        isPasswordChecked = PasswordChecked;
     }
 
     /**
@@ -70,6 +86,8 @@ public abstract class User {
         if (!userName.matches("^[a-zA-Z0-9_]+$")) {
             throw new IllegalArgumentException("Username can only contain letters, numbers, and underscores");
         }
+
+        this.userName = userName;
     }
 
     /**
@@ -87,6 +105,7 @@ public abstract class User {
         if (password.length() > 30) {
             throw new IllegalArgumentException("Password cannot exceed 30 characters");
         }
+        this.password = password;
     }
 
     @Override

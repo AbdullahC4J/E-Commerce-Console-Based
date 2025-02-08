@@ -103,22 +103,23 @@ public class Customer extends User{
 
     /**
      * Processes the checkout operation.
-     * Verifies password, checks cart contents, displays bill,
+     * Checks cart contents, displays bill,
      * and completes the purchase.
-     * 
-     * Note: Closes the scanner after use.
      */
     public void checkout() {
-        System.out.println("Enter your password: ");
-        Scanner scanner = new Scanner(System.in);
-        String password = scanner.nextLine();
-        scanner.close();
+        if(!getIsPasswordChecked()) {
+            System.out.println("Enter" + getUserName() + "s password: ");
+            Scanner scanner = new Scanner(System.in);
+            String password = scanner.nextLine();
+            scanner.close();
 
-        if (!verifyPassword(password)) {
-            System.out.println("Incorrect password");
-            this.checkout();
+            if (verifyPassword(password)) {
+                setIsPasswordChecked(true);
+            } else {
+                System.out.println("Incorrect password");
+                return;
+            }
         }
-
         printCustomerInfo();
 
         if (customerCart.isEmpty()) {

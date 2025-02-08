@@ -3,9 +3,11 @@ package com.ab.ecommerce;
 import com.ab.ecommerce.stock.Stock;
 import com.ab.ecommerce.users.Admin;
 import com.ab.ecommerce.users.Customer;
+import com.ab.ecommerce.products.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 
@@ -34,10 +36,29 @@ public class Store {
 
     /**
      * Adds a new admin to the store.
-     * @param admin The admin to add
+     * @param adminName The admin name
+     * @param adminPassword The admin password
      */
-    public void addNewAdmin(Admin admin){
+    public Admin addNewAdmin(String adminName, String adminPassword){
+        Admin admin = new Admin(admins.getLast().getAdminId() + 1, adminName,  adminPassword, stock);
         admins.add(admin);
+        return admin;
+    }
+
+    public Admin verifyAdminLogin(String name, String paswrd){
+        for (Admin admin : admins) {
+
+            if (name.equals(admin.getUserName())){
+                if(admin.verifyPassword(paswrd)) {
+                    admin.setIsPasswordChecked(true);
+                    return admin;
+                }
+                else{
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -115,4 +136,74 @@ public class Store {
     public void printTotalStock(){
         stock.getTotalStockCount();
     }
+
+    public void addProductToStock(Admin admin) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Product Category:");
+        String category = scanner.nextLine();
+
+        switch (category.toLowerCase()) {
+            case "electronics" -> {
+                System.out.println("Enter Product Name:");
+                String name = scanner.nextLine();
+                System.out.println("Enter Product Price:");
+                double price = scanner.nextDouble();
+                System.out.println("Enter Product Brand:");
+                String brand = scanner.nextLine();
+                System.out.println("Enter Product Type:");
+                String type = scanner.nextLine();
+                System.out.println("Enter Product Color:");
+                String color = scanner.nextLine();
+                admin.addProductToStock(new Electronic(name, price, brand, ElectronicProductType.valueOf(type), color));
+            }
+                case "books" -> {
+                System.out.println("Enter Product Name:");
+                String name = scanner.nextLine();
+                System.out.println("Enter Product Price:");
+                double price = scanner.nextDouble();
+                System.out.println("Enter Product Author:");
+                String author = scanner.nextLine();
+                admin.addProductToStock(new Book(name, price, author));
+            }
+                case "fashion" -> {
+                System.out.println("Enter Product Name:");
+                String name = scanner.nextLine();
+                System.out.println("Enter Product Price:");
+                double price = scanner.nextDouble();
+                System.out.println("Enter Product Brand:");
+                String brand = scanner.nextLine();
+                System.out.println("Enter Product Type:");
+                String type = scanner.nextLine();       
+                System.out.println("Enter Product Color:");
+                String color = scanner.nextLine();
+                admin.addProductToStock(new Fashion(name, price, brand, FashionType.valueOf(type), color));
+            }
+
+            case "supermarket" -> {
+                System.out.println("Enter Product Name:");
+                String name = scanner.nextLine();
+                System.out.println("Enter Product Price:");
+                double price = scanner.nextDouble();
+                System.out.println("Enter Product Brand:");
+                String brand = scanner.nextLine();
+                System.out.println("Enter Product Type:");
+                String type = scanner.nextLine();
+                System.out.println("Enter Product Color:");
+                String color = scanner.nextLine();
+                admin.addProductToStock(new Supermarket(name, price, brand, SupermarketType.valueOf(type), color));
+            }
+                default -> System.out.println("Invalid category");
+        }
+    }
+
+    public void removeProductFromStock(Admin admin) {
+        Scanner scanner = new Scanner(System.in);   
+        System.out.println("Enter Product Name:");
+        String name = scanner.nextLine();
+        System.out.println("Enter Product Price:");
+        double price = scanner.nextDouble();
+        admin.removeProductFromStock(stock.getProduct(name, price));
+        scanner.close();
+    }
+
 }
