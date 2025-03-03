@@ -22,7 +22,7 @@ public class Cart {
     private double totalAfterDiscount;
 
     /** Maximum number of items allowed in a single cart */
-    private final int MAX_ITEMS = 30;
+    private final int MAX_ITEMS;
 
     /**
      * Constructs an empty cart with initialized totals.
@@ -31,6 +31,7 @@ public class Cart {
         this.productsInCart = new ArrayList<>();
         this.totalPrice = 0.0;
         this.totalAfterDiscount = 0.0;
+        this.MAX_ITEMS = 30;
     }
 
     /**

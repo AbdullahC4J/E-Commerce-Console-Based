@@ -18,11 +18,24 @@ public class Bill {
      * @param cart The cart containing the items to be billed
      */
     public Bill(Cart cart) {
-        this.cart = cart;
-    }     
+        setCart(cart);
+    }  
+    
+    /**
+     * Sets the cart for the bill.
+     * 
+     * @param cart The cart to set
+     */
 
+    private void setCart(Cart cart){
+        if(cart == null){
+            throw new IllegalArgumentException("Cart is null");
+        }
+        this.cart = cart;
+    }
 
     /**
+
      * Displays the complete bill details including:
      * - Number of items
      * - Original total

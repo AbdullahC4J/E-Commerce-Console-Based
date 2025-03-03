@@ -5,14 +5,15 @@ package com.ab.ecommerce.users;
  * Provides common functionality for user authentication and management.
  */
 public abstract class User {
-    /** The username of the user */
+    /* The username of the user */
     private String userName;
     
-    /** The password of the user */
+    /* The password of the user */
     private String password;
 
-    /** The password checked of the admin */
-    private boolean isPasswordChecked = false;
+    /* The password checked of the admin */
+    private boolean isPasswordChecked;
+
 
     /**
      * Constructs a new User with the specified credentials.
@@ -22,9 +23,9 @@ public abstract class User {
      * @throws IllegalArgumentException if credentials are invalid
      */
     public User(String userName, String password) {
-        validateUserName(userName);
+        setUserName(userName);
         validatePassword(password);
-        this.userName = userName;
+        setIsPasswordChecked(false);
     }
 
     /**
@@ -41,7 +42,20 @@ public abstract class User {
      * @throws IllegalArgumentException if username is invalid
      */
     public void setUserName(String userName) {
-        validateUserName(userName);
+        if (userName == null || userName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if (userName.length() < 3) {
+            throw new IllegalArgumentException("Username must be at least 3 characters long");
+        }
+        if (userName.length() > 20) {
+            throw new IllegalArgumentException("Username cannot exceed 20 characters");
+        }
+        if (!userName.matches("^[a-zA-Z0-9_]+$")) {
+            throw new IllegalArgumentException("Username can only contain letters, numbers, and underscores");
+        }
+
+        this.userName = userName;
     }
 
     /**
@@ -59,6 +73,7 @@ public abstract class User {
         isPasswordChecked = PasswordChecked;
     }
 
+
     /**
      * Verifies if the provided password matches the user's password.
      * @param password The password to verify
@@ -66,28 +81,6 @@ public abstract class User {
      */
     public boolean verifyPassword(String password) {
         return this.password != null && this.password.equals(password);
-    }
-
-    /**
-     * Validates the username.
-     * @param userName The username to validate
-     * @throws IllegalArgumentException if username is invalid
-     */
-    private void validateUserName(String userName) {
-        if (userName == null || userName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if (userName.length() < 3) {
-            throw new IllegalArgumentException("Username must be at least 3 characters long");
-        }
-        if (userName.length() > 20) {
-            throw new IllegalArgumentException("Username cannot exceed 20 characters");
-        }
-        if (!userName.matches("^[a-zA-Z0-9_]+$")) {
-            throw new IllegalArgumentException("Username can only contain letters, numbers, and underscores");
-        }
-
-        this.userName = userName;
     }
 
     /**

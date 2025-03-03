@@ -11,18 +11,22 @@ import java.util.Scanner;
 
 
 
-public class Store {
+public final class Store {
     /** The stock of the store */   
-    private final Stock stock = new Stock();
+    private final Stock stock;
     /** The customers of the store */
-    private final List<Customer> customers = new ArrayList<>(10);
+    private final List<Customer> customers;
     /** The admins of the store */
-    private final List<Admin> admins = new ArrayList<>(3);
+    private final List<Admin> admins;
 
     /**
      * Constructs a new Store with the specified stock.
      */
     public Store(){
+        this.stock = new Stock();
+        this.customers = new ArrayList<>(10);
+        this.admins = new ArrayList<>(3);
+
         admins.add(new Admin(1, "Abdullah", "Abdullah123", stock));
     }
 
@@ -39,26 +43,27 @@ public class Store {
      * @param adminName The admin name
      * @param adminPassword The admin password
      */
-    public Admin addNewAdmin(String adminName, String adminPassword){
+    public int addNewAdmin(String adminName, String adminPassword){
         Admin admin = new Admin(admins.getLast().getAdminId() + 1, adminName,  adminPassword, stock);
+        admin.setIsPasswordChecked(true);
         admins.add(admin);
-        return admin;
+        return admin.getAdminId();
     }
 
-    public Admin verifyAdminLogin(String name, String paswrd){
+    public int verifyAdminLogin(String name, String paswrd){
         for (Admin admin : admins) {
 
             if (name.equals(admin.getUserName())){
                 if(admin.verifyPassword(paswrd)) {
                     admin.setIsPasswordChecked(true);
-                    return admin;
+                    return admin.getAdminId();
                 }
                 else{
-                    return null;
+                    return -1;
                 }
             }
         }
-        return null;
+        return -1;
     }
 
     /**
@@ -134,49 +139,55 @@ public class Store {
      * Prints the total stock count.
      */ 
     public void printTotalStock(){
-        stock.getTotalStockCount();
+        System.out.println(stock.getTotalStockCount());
     }
 
-    public void addProductToStock(Admin admin) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Product Category:");
+    public void addProductToStock(int adminId, Scanner scanner) {
+        Admin admin = getAdmin(adminId);
+        if(admin == null)
+            return;
+
+        System.out.println("Enter Product Category: electronic | book | fashion | supermarket");
         String category = scanner.nextLine();
 
         switch (category.toLowerCase()) {
-            case "electronics" -> {
+            case "electronic" -> {
                 System.out.println("Enter Product Name:");
                 String name = scanner.nextLine();
                 System.out.println("Enter Product Price:");
                 double price = scanner.nextDouble();
+                scanner.nextLine();
                 System.out.println("Enter Product Brand:");
                 String brand = scanner.nextLine();
-                System.out.println("Enter Product Type:");
+                System.out.println("Enter Product Type: SMARTPHONE, LAPTOP, TABLET, TV, CAMERA, HEADPHONE, SPEAKER");
                 String type = scanner.nextLine();
                 System.out.println("Enter Product Color:");
                 String color = scanner.nextLine();
-                admin.addProductToStock(new Electronic(name, price, brand, ElectronicProductType.valueOf(type), color));
+                admin.addProductToStock(new Electronic(name, price, brand, ElectronicProductType.valueOf(type), color), scanner);
             }
-                case "books" -> {
-                System.out.println("Enter Product Name:");
+                case "book" -> {
+                System.out.println("Enter book Name:");
                 String name = scanner.nextLine();
                 System.out.println("Enter Product Price:");
                 double price = scanner.nextDouble();
+                scanner.nextLine();
                 System.out.println("Enter Product Author:");
                 String author = scanner.nextLine();
-                admin.addProductToStock(new Book(name, price, author));
+                admin.addProductToStock(new Book(name, price, author), scanner);
             }
                 case "fashion" -> {
-                System.out.println("Enter Product Name:");
+                System.out.println("Enter fashion Name:");
                 String name = scanner.nextLine();
                 System.out.println("Enter Product Price:");
                 double price = scanner.nextDouble();
-                System.out.println("Enter Product Brand:");
-                String brand = scanner.nextLine();
+                scanner.nextLine();
                 System.out.println("Enter Product Type:");
                 String type = scanner.nextLine();       
                 System.out.println("Enter Product Color:");
                 String color = scanner.nextLine();
-                admin.addProductToStock(new Fashion(name, price, brand, FashionType.valueOf(type), color));
+                System.out.println("Enter Product Size:");
+                String size = scanner.nextLine();
+                admin.addProductToStock(new Fashion(name, price, type, color, size), scanner);
             }
 
             case "supermarket" -> {
@@ -184,26 +195,69 @@ public class Store {
                 String name = scanner.nextLine();
                 System.out.println("Enter Product Price:");
                 double price = scanner.nextDouble();
-                System.out.println("Enter Product Brand:");
-                String brand = scanner.nextLine();
-                System.out.println("Enter Product Type:");
+                scanner.nextLine();
+                System.out.println("Enter Product Type: FRUITS, VEGETABLES, MEAT, FISH, POULTRY, DRINKS, BREAD, DAIRY, EGGS");
                 String type = scanner.nextLine();
-                System.out.println("Enter Product Color:");
-                String color = scanner.nextLine();
-                admin.addProductToStock(new Supermarket(name, price, brand, SupermarketType.valueOf(type), color));
+                admin.addProductToStock(new SuperMarket(name, price, SuperMarketProductType.valueOf(type)), scanner);
             }
-                default -> System.out.println("Invalid category");
+            default -> System.out.println("Invalid category");
         }
     }
 
-    public void removeProductFromStock(Admin admin) {
-        Scanner scanner = new Scanner(System.in);   
-        System.out.println("Enter Product Name:");
-        String name = scanner.nextLine();
-        System.out.println("Enter Product Price:");
-        double price = scanner.nextDouble();
-        admin.removeProductFromStock(stock.getProduct(name, price));
-        scanner.close();
+
+    public void removeProductFromStock(int adminId, Scanner scanner) {
+        Admin admin = getAdmin(adminId);
+        if(admin == null)
+            return;
+
+        System.out.println("Enter Product Category: electronic | book | fashion | supermarket");
+        String category = scanner.nextLine();
+        System.out.println("Enter Product Index: ");
+        int index = scanner.nextInt();
+        scanner.nextLine();
+        admin.removeProductFromStock(stock.getProduct(category,index), scanner);
     }
 
+    /**
+     * Gets the admin unique identifier.
+     * @return The admin instant
+     */
+    private Admin getAdmin(int adminId) {
+        for (Admin ad : admins){
+            if(ad.getAdminId() == adminId)
+                return ad;
+        }
+        return null;
+    }
+
+    /**
+     * Adds a new customer to the store.
+     * @param customerName The admin name
+     * @param customerPassword The admin password
+     */
+    public Customer addNewCustomer(String customerName, String customerPassword, String customerPhoneNumber, String customerAddress){
+        Customer customer = new Customer(customerPhoneNumber, customerAddress, customerName, customerPassword);
+        customers.add(customer);
+        return customer;
+    }
+
+    public Customer verifyCustomerLogin(String name, String paswrd){
+        for (Customer customer : customers) {
+
+            if (name.equals(customer.getUserName())){
+                if(customer.verifyPassword(paswrd)) {
+                    customer.setIsPasswordChecked(true);
+                    return customer;
+                }
+                else{
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Product findProduct(String category, int index){
+        return stock.getProduct(category,index);
+    }
 }

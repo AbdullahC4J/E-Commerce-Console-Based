@@ -5,8 +5,11 @@ package com.ab.ecommerce.products;
  * Handles electronic devices with specific attributes like brand, type, and color.
  */
 public class Electronic extends Product {
+    /** The brand of the electronic device */   
     private String brand;
+    /** The type of electronic device */
     private ElectronicProductType productType;
+    /** The color of the device */
     private String color;
 
     /**
@@ -47,7 +50,13 @@ public class Electronic extends Product {
      * @param brand The brand name to set
      */
     public void setBrand(String brand) {
-        validateBrand(brand);
+        if (brand == null || brand.trim().isEmpty()) {
+            throw new IllegalArgumentException("Brand cannot be empty");
+        }
+        if (!brand.matches("^[a-zA-Z0-9\\s-]+$")) {
+            throw new IllegalArgumentException("Brand can only contain letters, numbers, spaces, and hyphens");
+        }
+
         this.brand = brand;
     }
 
@@ -56,7 +65,13 @@ public class Electronic extends Product {
      * @param color The color to set
      */
     public void setColor(String color) {
-        validateColor(color);
+        if (color == null || color.trim().isEmpty()) {
+            throw new IllegalArgumentException("Color cannot be empty");
+        }
+        if (!color.matches("^[a-zA-Z\\s-]+$")) {
+            throw new IllegalArgumentException("Color can only contain letters, spaces, and hyphens");
+        }
+
         this.color = color;
     }
 
@@ -73,44 +88,11 @@ public class Electronic extends Product {
      * @param productType The product type to set
      */
     public void setProductType(ElectronicProductType productType) {
-        validateProductType(productType);
-        this.productType = productType;
-    }
-
-    /**
-     * Validates the brand name.
-     * @throws IllegalArgumentException if the brand is invalid
-     */
-    private void validateBrand(String brand) {
-        if (brand == null || brand.trim().isEmpty()) {
-            throw new IllegalArgumentException("Brand cannot be empty");
-        }
-        if (!brand.matches("^[a-zA-Z0-9\\s-]+$")) {
-            throw new IllegalArgumentException("Brand can only contain letters, numbers, spaces, and hyphens");
-        }
-    }
-
-    /**
-     * Validates the product type.
-     * @throws IllegalArgumentException if the product type is null
-     */
-    private void validateProductType(ElectronicProductType  productType) {
         if (productType == null) {
             throw new IllegalArgumentException("Product type cannot be null");
         }
-    }
 
-    /**
-     * Validates the color.
-     * @throws IllegalArgumentException if the color is invalid
-     */
-    private void validateColor(String color) {
-        if (color == null || color.trim().isEmpty()) {
-            throw new IllegalArgumentException("Color cannot be empty");
-        }
-        if (!color.matches("^[a-zA-Z\\s-]+$")) {
-            throw new IllegalArgumentException("Color can only contain letters, spaces, and hyphens");
-        }
+        this.productType = productType;
     }
 
     /**
@@ -119,13 +101,13 @@ public class Electronic extends Product {
      */
     @Override
     public void printProductInfo() {
-        System.out.println("Electronic Details:");
+        System.out.println("--------------------------------");
         System.out.println("Name: " + getName());
         System.out.println("Brand: " + brand);
         System.out.println("Product Type: " + productType);
         System.out.println("Price: $" + getPrice());
         System.out.println("Color: " + color);
-        System.out.println("Final Price: $" + getFinalPrice());
+        System.out.println("--------------------------------\n");
     }
 
     /**
@@ -145,5 +127,5 @@ public class Electronic extends Product {
             case TABLET, HEADPHONE, SPEAKER -> getPrice() * 0.10;  // 10% discount
             default -> 0.0;
         };
-    }   
+    }
 }

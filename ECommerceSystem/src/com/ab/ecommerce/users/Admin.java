@@ -26,8 +26,8 @@ public class Admin extends User{
      */
     public Admin(int adminId, String adminName, String adminPassword, Stock stock) {
         super(adminName, adminPassword);
-        this.adminId = adminId;
-        this.stock = stock;
+        setAdminId(adminId);
+        setStock(stock);
     }   
 
     /**
@@ -47,8 +47,23 @@ public class Admin extends User{
         if (adminId <= 0) {
             throw new IllegalArgumentException("Admin ID must be a positive number");
         }
+
         this.adminId = adminId;
     }
+
+    /**
+     * Sets the stock of the store.
+     * @param stock The new stock of the store
+     * @throws IllegalArgumentException if the stock is null
+     */
+    public void setStock(Stock stock) {
+        if (stock == null) {
+            throw new IllegalArgumentException("Stock cannot be null");
+        }
+
+        this.stock = stock;
+    }
+
 
     /**
      * Prints admin information including ID and name.
@@ -64,34 +79,10 @@ public class Admin extends User{
      * Adds a product to the stock.
      * @param product The product to add
      */
-    public void addProductToStock(Product product) {
-         if(!getIsPasswordChecked()){
-             System.out.println("Enter" + getUserName() + "s password: ");
-             Scanner scanner = new Scanner(System.in);
-             String password = scanner.nextLine();
-             scanner.close();
-            
-             if(verifyPassword(password)){
-                setIsPasswordChecked(true);
-             } else {
-                System.out.println("Incorrect password");
-                return;
-            }
-        }
-
-        stock.addProduct(product);
-     }
-
-    /**
-     * Removes a product from the stock.
-     * @param product The product to remove
-     */
-    public void removeProductFromStock(Product product) {
+    public void addProductToStock(Product product, Scanner scanner) {
         if(!getIsPasswordChecked()){
-            System.out.println("Enter Admin password: ");
-            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter" + getUserName() + "'s password: ");
             String password = scanner.nextLine();
-            scanner.close();
             
             if(verifyPassword(password)){
                 setIsPasswordChecked(true);
@@ -99,8 +90,38 @@ public class Admin extends User{
                 System.out.println("Incorrect password");
                 return;
             }
-        }   
-        stock.removeProduct(product);
+        }
+
+        if(stock.addProduct(product)){
+            System.out.println("The product has been added to the stock successfully");
+        } else {
+            System.out.println("The product is already in the stock");
+        }
+        System.out.println("**********************************************************");
+    }
+
+    /**
+     * Removes a product from the stock.
+     * @param product to remove from stock
+     */
+    public void removeProductFromStock(Product product, Scanner scanner) {
+        if(!getIsPasswordChecked()){
+            System.out.println("Enter Admin password: ");
+            String password = scanner.nextLine();
+            
+            if(verifyPassword(password)){
+                setIsPasswordChecked(true);
+            } else {
+                System.out.println("Incorrect password");
+                return;
+            }
+        }
+
+        if(stock.removeProduct(product)){
+            System.out.println("The product has been removed from the stock successfully");
+        } else {
+            System.out.println("The product is not in the stock");
+        }
+        System.out.println("**********************************************************");
      }
-    
 }

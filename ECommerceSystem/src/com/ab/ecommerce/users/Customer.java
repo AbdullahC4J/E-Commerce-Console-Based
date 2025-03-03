@@ -19,10 +19,10 @@ public class Customer extends User{
     private String customerAddress;
     
     /** The customer's shopping cart */
-    private Cart customerCart;
+    private final Cart customerCart;
     
     /** The customer's bill for current purchase */
-    private Bill customerBill;
+    private final Bill customerBill;
 
     /**
      * Constructs a new Customer with the specified details.
@@ -35,10 +35,11 @@ public class Customer extends User{
      */
     public Customer(String customerPhoneNumber, String customerAddress, String userName, String password) {
         super(userName, password);
-        this.customerPhoneNumber = customerPhoneNumber;
-        this.customerAddress = customerAddress;
+        setCustomerPhoneNumber(customerPhoneNumber);
+        setCustomerAddress(customerAddress);
         this.customerCart = new Cart();
         this.customerBill = new Bill(customerCart);
+
     }
 
     /**
@@ -62,14 +63,34 @@ public class Customer extends User{
      * @param customerPhoneNumber The new phone number
      */
     public void setCustomerPhoneNumber(String customerPhoneNumber) {
+        if(customerPhoneNumber == null || customerPhoneNumber.trim().isEmpty()){
+            throw new IllegalArgumentException("Phone number cannot be empty");
+        }
+        if(customerPhoneNumber.length() != 11){
+            throw new IllegalArgumentException("Phone number must be 11 digits");
+        }
+        if(!customerPhoneNumber.matches("\\d+")){
+            throw new IllegalArgumentException("Phone number must contain only digits");
+        }
+
         this.customerPhoneNumber = customerPhoneNumber;
     }
+
+
+
 
     /**
      * Sets the customer's delivery address.
      * @param customerAddress The new delivery address
      */
     public void setCustomerAddress(String customerAddress) {
+        if(customerAddress == null || customerAddress.trim().isEmpty()){
+            throw new IllegalArgumentException("Address cannot be empty");
+        }
+        if(customerAddress.length() < 3){
+            throw new IllegalArgumentException("Address must be at least 3 characters long");
+        }
+        
         this.customerAddress = customerAddress;
     }   
 
@@ -91,6 +112,7 @@ public class Customer extends User{
      */
     public void addProductToCart(Product product) {
         customerCart.addProduct(product);
+
     }
 
     /**
@@ -106,12 +128,10 @@ public class Customer extends User{
      * Checks cart contents, displays bill,
      * and completes the purchase.
      */
-    public void checkout() {
+    public void checkout(Scanner scanner) {
         if(!getIsPasswordChecked()) {
-            System.out.println("Enter" + getUserName() + "s password: ");
-            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter " + getUserName() + "'s password: ");
             String password = scanner.nextLine();
-            scanner.close();
 
             if (verifyPassword(password)) {
                 setIsPasswordChecked(true);
@@ -132,5 +152,12 @@ public class Customer extends User{
         customerBill.printBill();
         System.out.println("Thank you for shopping with us!");
         customerCart.clear();
+    }
+
+    /**
+     * Prints the customer's shopping cart.
+     */
+    public void printCustomerCart(){
+        customerCart.printCart();
     }
 }

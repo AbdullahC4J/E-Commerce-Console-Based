@@ -18,9 +18,9 @@ public class Book extends Product {
      */
     public Book(String name, double price, String author) {
         super(name, price, "Book");
-        validateAuthor(author);
-        this.author = author;
+        setAuthor(author);
     }
+
 
     /**
      * Gets the book's author.
@@ -30,17 +30,12 @@ public class Book extends Product {
         return author;
     }
 
-    public void setAuthor(String author) {
-        validateAuthor(author);
-        this.author = author;
-    }
-
     /**
-     * Validates the author name.
-     * @param author The author name to validate
-     * @throws IllegalArgumentException if the author name is invalid
+     * Sets the author of the book.
+     * @param author The author of the book
      */
-    private void validateAuthor(String author) {
+    public void setAuthor(String author) {
+        
         if (author == null || author.trim().isEmpty()) {
             throw new IllegalArgumentException("Author name cannot be empty");
         }
@@ -50,19 +45,21 @@ public class Book extends Product {
         if (!author.matches("^[a-zA-Z]+$")) {
             throw new IllegalArgumentException("Author can only contain letters, spaces, and hyphens");
         }
+        
+        this.author = author;
     }
 
     /**
      * Prints detailed information about the book including
-     * title, author, price, category, cover color, and final price.
+     * title, author, price.
      */
     @Override
     public void printProductInfo() {
-        System.out.println("Book Details:");
+        System.out.println("--------------------------------");
         System.out.println("Title: " + getName());
         System.out.println("Author: " + author);
         System.out.println("Price: $" + getPrice());
-        System.out.println("Final Price: $" + getFinalPrice());
+        System.out.println("--------------------------------\n");
     }
 
     /**

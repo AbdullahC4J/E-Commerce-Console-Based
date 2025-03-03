@@ -55,59 +55,51 @@ public class Fashion extends Product {
         return size;
     }
 
-    public void setFashionType(String fashionType) {
-        validateFashionType(fashionType);
-        this.fashionType = fashionType;
-    }
-
-    public void setColor(String color) {
-        validateColor(color);
-        this.color = color;
-    }
-
-    public void setSize(String size) {
-        validateSize(size);
-        this.size = size;
-    }
-
     /**
-     * Validates the fashion type.
-     * @throws IllegalArgumentException if the fashion type is invalid
+     * Sets the fashion type.
+     * @param fashionType The type of fashion item
      */
-    private void validateFashionType(String fashionType) {
+    public void setFashionType(String fashionType) {
         if (fashionType == null || fashionType.trim().isEmpty()) {
             throw new IllegalArgumentException("Fashion type cannot be empty");
         }
         if (!fashionType.matches("^[a-zA-Z]+$")) {
             throw new IllegalArgumentException("Fashion type can only contain letters, spaces, and hyphens");
         }
+
+        this.fashionType = fashionType;
     }
 
     /**
-     * Validates the color.
-     * @throws IllegalArgumentException if the color is invalid
+     * Sets the color of the fashion item.
+     * @param color The color of the fashion item
      */
-    private void validateColor(String color) {
+    public void setColor(String color) {
         if (color == null || color.trim().isEmpty()) {
             throw new IllegalArgumentException("Color cannot be empty");
         }
         if (!color.matches("^[a-zA-Z]+$")) {
             throw new IllegalArgumentException("Color can only contain letters, spaces, and hyphens");
         }
+
+        this.color = color;
     }
 
     /**
-     * Validates the size.
-     * @throws IllegalArgumentException if the size is invalid
+     * Sets the size of the fashion item.
+     * @param size The size of the fashion item
      */
-    private void validateSize(String size) {
+    public void setSize(String size) {
         if (size == null || size.trim().isEmpty()) {
             throw new IllegalArgumentException("Size cannot be empty");
         }
         if (!size.matches("^[XSMLxsml0-9]+$")) {
             throw new IllegalArgumentException("Invalid size format (e.g., XS, S, M, L, XL, XXL, or numeric)");
         }
+
+        this.size = size;
     }
+
 
     /**
      * Prints detailed information about the fashion item
@@ -115,13 +107,13 @@ public class Fashion extends Product {
      */
     @Override
     public void printProductInfo() {
-        System.out.println("Fashion Details:"); 
+        System.out.println("--------------------------------");
         System.out.println("Name: " + getName());
         System.out.println("Fashion Type: " + fashionType);
         System.out.println("Color: " + color);
         System.out.println("Size: " + size);
         System.out.println("Price: $" + getPrice());
-        System.out.println("Final Price: $" + getFinalPrice());
+        System.out.println("--------------------------------\n");
     }       
 
     /**
